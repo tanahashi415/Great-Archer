@@ -1,16 +1,10 @@
 fileFormatVersion: 2
-guid: ea0399113c4fd3541aa04135297485e1
+guid: eafe0f613d046e944ade6aa59019fd68
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 8971526519067533432
-    second: mon_123_0
-  - first:
-      213: -8267798942380296023
-    second: mon_123_1
-  - first:
-      213: 2169361161684402105
-    second: mon_123_2
+      213: -1302799545169137079
+    second: mon_042_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -57,7 +51,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 20
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -102,61 +96,30 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: mon_123_0
+      name: mon_042_0
       rect:
         serializedVersion: 2
-        x: 2
-        y: 37
-        width: 18
-        height: 12
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 870640ef5d3418c70800000000000000
-      internalID: 8971526519067533432
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: mon_123_1
-      rect:
-        serializedVersion: 2
-        x: 10
-        y: 26
-        width: 9
-        height: 12
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 9a87215aaa0e24d80800000000000000
-      internalID: -8267798942380296023
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: mon_123_2
-      rect:
-        serializedVersion: 2
-        x: 11
+        x: 0
         y: 0
-        width: 27
-        height: 60
+        width: 61
+        height: 68
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -165,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 9bf3ab79b7e1b1e10800000000000000
-      internalID: 2169361161684402105
+      spriteID: 94237a857b68bede0800000000000000
+      internalID: -1302799545169137079
       vertices: []
       indices: 
       edges: []
@@ -185,9 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      mon_123_0: 8971526519067533432
-      mon_123_1: -8267798942380296023
-      mon_123_2: 2169361161684402105
+      mon_042_0: -1302799545169137079
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
