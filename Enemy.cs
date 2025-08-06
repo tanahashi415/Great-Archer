@@ -1,48 +1,115 @@
 using UnityEngine;
 using System.Collections;
 
-// 敵の防御に関するスクリプト
+// 敵に関するスクリプト
 public class Enemy : MonoBehaviour
 {
-    private float oldHP;    // 前フレームのHP
+    private float oldHP;            // 前フレームのHP
+    private bool canMove;           // 移動できるか
+    private bool canAttack;         // 攻撃できるか
+    private float received;         // 被ダメージ
+    private float coolTime;         // 攻撃のクールタイム
+    protected PlayerControl script; // 接触相手のプレイヤーのスクリプト
+    protected Vector2 initialPos;   // 初期位置
 
     [Header("基礎パラメータ")]
-    public float HP;    // 体力
-    public float DEF;   // 防御力
+    public float HP;        // 体力
+    public float ATK;       // 攻撃力
+    public float ATKSPD;    // 攻撃速度
+    public float DEF;       // 防御力
+    public float SPD;       // 移動スピード
+
 
     void Start()
     {
         oldHP = HP;
+        canMove = true;
+        canAttack = false;
+        coolTime = 0.0f;
+        initialPos = transform.position;
     }
+
 
     void Update()
     {
-        // HPが0になったら破壊
-        if (HP <= 0)
+        // 移動
+        if (canMove)
         {
-            Destroy(gameObject);
+            Move();
         }
         else
         {
-            SpriteRenderer sprite = GetComponent<SpriteRenderer>();
-
-            // ダメージを受けた時
-            if ((oldHP - HP) > 0)
+            Moved();
+            // 攻撃のクールタイム
+            coolTime += Time.deltaTime;
+            if (coolTime > ATKSPD)
             {
-                // ダメージエフェクト
-                StartCoroutine(Damage(sprite));
+                canAttack = true;
             }
-            // 回復した時
-            else if ((oldHP - HP) < 0)
+        }
+
+        // 攻撃
+        if (canAttack)
+        {
+            Attack();
+            canAttack = false;
+            coolTime = 0.0f;
+        }
+
+        // HPの変化を確認
+        received = oldHP - HP;
+        // HPが変化したとき
+        if (received != 0)
+        {
+            // HPが0になったら破壊
+            if (HP <= 0)
             {
-                // 回復エフェクト
-                StartCoroutine(Heal(sprite));
+                Destroy(gameObject);
+            }
+            else
+            {
+                SpriteRenderer sprite = GetComponent<SpriteRenderer>();
+
+                // ダメージを受けた時
+                if (received > 0)
+                {
+                    // ダメージエフェクト
+                    StartCoroutine(Damage(sprite));
+                }
+                // 回復した時
+                else if (received < 0)
+                {
+                    // 回復エフェクト
+                    StartCoroutine(Heal(sprite));
+                }
             }
         }
         // HPを更新
         oldHP = HP;
     }
 
+
+    // 移動
+    protected virtual void Move()
+    {
+        transform.Translate(-SPD * Time.deltaTime, 0, 0);
+    }
+
+
+    // 移動完了
+    protected virtual void Moved()
+    {
+
+    }
+
+
+    // 攻撃
+    protected virtual void Attack()
+    {
+        script.HP -= ATK;
+    }
+
+    
     // ダメージエフェクト
     IEnumerator Damage(SpriteRenderer sprite)
     {
@@ -53,6 +120,7 @@ public class Enemy : MonoBehaviour
         sprite.color = Color.white;
     }
 
+
     // 回復エフェクト
     IEnumerator Heal(SpriteRenderer sprite)
     {
@@ -61,5 +129,26 @@ public class Enemy : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
 
         sprite.color = Color.white;
+    }
+
+
+    // プレイヤーまで到達したとき
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Player")
+        {
+            script = collision.gameObject.GetComponent<PlayerControl>();
+            canMove = false;
+        }
+    }
+
+
+    // プレイヤーから離れた時
+    void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Player")
+        {
+            canMove = true;
+        }
     }
 }
