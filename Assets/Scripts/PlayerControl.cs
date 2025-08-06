@@ -11,18 +11,20 @@ public class PlayerControl : MonoBehaviour
     private Vector3 pos;        // キャラクターの座標
     private bool canCharge;     // 溜め可能か
 
-    public Slider slider;       // 溜めゲージ
+    public Slider slider;               // 溜めゲージ
     public GameObject chargeMaxEffect;  // 溜め完了エフェクト
     public GameObject chargeEffect;     // 溜めエフェクト
 
     [Header("基礎パラメータ")]
     public GameObject arrow;    // 生成する矢
     public float chargeSpeed;   // 溜めスピード
+    public float coolTime;      // クールタイム
     public int penetration;     // 貫通数
     public float arrowSpeed;    // 矢の速さ
-    public float coolTime;      // クールタイム
-    public int HP;              // 体力
-    public int ATK;             // 攻撃力
+    public float fixedDamage;   // 矢の固定ダメージ
+    
+    public float HP;            // 体力
+    public float ATK;           // 攻撃力
 
 
     void Start()
@@ -70,6 +72,11 @@ public class PlayerControl : MonoBehaviour
                 float angle = Vector3.SignedAngle(Vector3.right, direction, Vector3.forward);
                 // 矢を生成
                 GameObject obj = Instantiate(arrow, pos + Vector3.right, Quaternion.Euler(angle * Vector3.forward));
+                // 矢のパラメータを変更
+                Arrow script = obj.GetComponent<Arrow>();
+                script.ATK = ATK;
+                script.penetration = penetration;
+                script.fixedDamage = fixedDamage;
                 // 矢を射出
                 Rigidbody2D rb = obj.GetComponent<Rigidbody2D>();
                 rb.AddForce((arrowSpeed + chargeLevel) * direction.normalized, ForceMode2D.Impulse);
