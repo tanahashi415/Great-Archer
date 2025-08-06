@@ -75,7 +75,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1005379453
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: eafe0f613d046e944ade6aa59019fd68, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -101,9 +101,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slider: {fileID: 0}
+  chargeEffect: {fileID: 0}
   arrow: {fileID: 7764738312536605766, guid: 07bf13cf6fa079745a94e30c51a733e0, type: 3}
   chargeSpeed: 100
   penetration: 0
-  arrowSpeed: 1
+  arrowSpeed: 2
+  coolTime: 0.5
   HP: 100
   ATK: 10
