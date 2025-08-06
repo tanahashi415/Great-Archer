@@ -6,6 +6,8 @@ using System.Collections;
 // プレイヤー操作に関するスクリプト
 public class PlayerControl : MonoBehaviour
 {
+    private float oldHP;        // 前フレームのHP
+    private float received;     // 被ダメージ
     private float chargeTime;   // 溜め時間
     private int chargeLevel;    // 溜め段階
     private Vector3 pos;        // キャラクターの座標
@@ -22,13 +24,14 @@ public class PlayerControl : MonoBehaviour
     public int penetration;     // 貫通数
     public float arrowSpeed;    // 矢の速さ
     public float fixedDamage;   // 矢の固定ダメージ
-    
+
     public float HP;            // 体力
     public float ATK;           // 攻撃力
 
 
     void Start()
     {
+        oldHP = HP;
         pos = transform.position;
         slider.value = 0.0f;
         canCharge = true;
@@ -84,7 +87,39 @@ public class PlayerControl : MonoBehaviour
                 StartCoroutine(CoolDown());
             }
         }
+
+        // HPの変化を確認
+        received = oldHP - HP;
+        // HPが変化したとき
+        if (received != 0)
+        {
+            // HPが0になったら破壊
+            if (HP <= 0)
+            {
+                Destroy(gameObject);
+            }
+            else
+            {
+                SpriteRenderer sprite = GetComponent<SpriteRenderer>();
+
+                // ダメージを受けた時
+                if (received > 0)
+                {
+                    // ダメージエフェクト
+                    StartCoroutine(Damage(sprite));
+                }
+                // 回復した時
+                else if (received < 0)
+                {
+                    // 回復エフェクト
+                    StartCoroutine(Heal(sprite));
+                }
+            }
+        }
+        // HPを更新
+        oldHP = HP;
     }
+
 
     // クールダウン
     IEnumerator CoolDown()
@@ -109,5 +144,27 @@ public class PlayerControl : MonoBehaviour
 
         image.color = Color.yellow;
         canCharge = true;
+    }
+    
+
+    // ダメージエフェクト
+    IEnumerator Damage(SpriteRenderer sprite)
+    {
+        sprite.color = Color.red;
+
+        yield return new WaitForSeconds(0.5f);
+
+        sprite.color = Color.white;
+    }
+
+
+    // 回復エフェクト
+    IEnumerator Heal(SpriteRenderer sprite)
+    {
+        sprite.color = Color.green;
+
+        yield return new WaitForSeconds(0.5f);
+
+        sprite.color = Color.white;
     }
 }
