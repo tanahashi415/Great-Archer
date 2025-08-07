@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 // 敵に関するスクリプト
 public class Enemy : MonoBehaviour
@@ -11,6 +12,9 @@ public class Enemy : MonoBehaviour
     private float coolTime;         // 攻撃のクールタイム
     protected PlayerControl script; // 接触相手のプレイヤーのスクリプト
     protected Vector2 initialPos;   // 初期位置
+    private Slider HPbar;           // HPバーのインスタンス
+
+    public GameObject HPcanvas;     // HP表示用のキャンバス
 
     [Header("基礎パラメータ")]
     public float HP;        // 体力
@@ -22,11 +26,19 @@ public class Enemy : MonoBehaviour
 
     void Start()
     {
+        // 初期値の設定
         oldHP = HP;
         canMove = true;
         canAttack = false;
         coolTime = 0.0f;
         initialPos = transform.position;
+
+        // HPゲージの生成
+        GameObject canvas = Instantiate(HPcanvas, transform.position, Quaternion.identity);
+        canvas.transform.SetParent(transform);
+        GameObject slider = canvas.transform.Find("HP").gameObject;
+        HPbar = slider.GetComponent<Slider>();
+        HPbar.maxValue = HP;
     }
 
 
@@ -56,6 +68,9 @@ public class Enemy : MonoBehaviour
             coolTime = 0.0f;
         }
 
+        // HPの更新
+        HPbar.value = HP;
+
         // HPの変化を確認
         received = oldHP - HP;
         // HPが変化したとき
@@ -84,7 +99,7 @@ public class Enemy : MonoBehaviour
                 }
             }
         }
-        // HPを更新
+        // oldHPを更新
         oldHP = HP;
     }
 

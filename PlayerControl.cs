@@ -12,8 +12,10 @@ public class PlayerControl : MonoBehaviour
     private int chargeLevel;    // 溜め段階
     private Vector3 pos;        // キャラクターの座標
     private bool canCharge;     // 溜め可能か
+    private Slider HPBar;       // HPバーのインスタンス
 
-    public Slider slider;               // 溜めゲージ
+    public GameObject HPcanvas;     // HP表示用のキャンバス
+    public Slider ChargeBar;            // 溜めゲージのインスタンス
     public GameObject chargeMaxEffect;  // 溜め完了エフェクト
     public GameObject chargeEffect;     // 溜めエフェクト
 
@@ -31,25 +33,36 @@ public class PlayerControl : MonoBehaviour
 
     void Start()
     {
+        // 初期値の設定
         oldHP = HP;
         pos = transform.position;
-        slider.value = 0.0f;
+        ChargeBar.value = 0.0f;
         canCharge = true;
+
+        // HPゲージの生成
+        GameObject canvas = Instantiate(HPcanvas, transform.position, Quaternion.identity);
+        canvas.transform.SetParent(transform);
+        GameObject slider = canvas.transform.Find("HP").gameObject;
+        HPBar = slider.GetComponent<Slider>();
+        HPBar.maxValue = HP;
     }
 
 
     void Update()
     {
+        // HPの更新
+        HPBar.value = HP;
+
         if (canCharge)
         {
             // 溜めの進捗表示
-            slider.value = chargeSpeed * chargeTime;
+            ChargeBar.value = chargeSpeed * chargeTime;
             // 溜め段階
-            if (slider.value < slider.maxValue)
+            if (ChargeBar.value < ChargeBar.maxValue)
             {
                 chargeLevel = 0;
             }
-            else if (slider.value >= slider.maxValue)
+            else if (ChargeBar.value >= ChargeBar.maxValue)
             {
                 chargeLevel = 1;
                 chargeMaxEffect.SetActive(true);
@@ -130,15 +143,15 @@ public class PlayerControl : MonoBehaviour
         chargeTime = 0.0f;
 
         // ゲージを青色に変更
-        GameObject fill = slider.transform.Find("Fill Area/Fill").gameObject;
+        GameObject fill = ChargeBar.transform.Find("Fill Area/Fill").gameObject;
         Image image = fill.GetComponent<Image>();
         image.color = Color.blue;
 
         // 溜め時間リセット
-        float rate = slider.value / coolTime;
-        while (slider.value > 0.0f)
+        float rate = ChargeBar.value / coolTime;
+        while (ChargeBar.value > 0.0f)
         {
-            slider.value -= rate * Time.deltaTime;
+            ChargeBar.value -= rate * Time.deltaTime;
             yield return null;
         }
 
