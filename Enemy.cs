@@ -13,8 +13,7 @@ public class Enemy : MonoBehaviour
     protected PlayerControl script; // 接触相手のプレイヤーのスクリプト
     protected Vector2 initialPos;   // 初期位置
     private Slider HPbar;           // HPバーのインスタンス
-
-    public GameObject HPcanvas;     // HP表示用のキャンバス
+    private Animator animator;      // アニメーターのインスタンス
 
     [Header("基礎パラメータ")]
     public float HP;        // 体力
@@ -34,11 +33,14 @@ public class Enemy : MonoBehaviour
         initialPos = transform.position;
 
         // HPゲージの生成
+        GameObject HPcanvas = Resources.Load<GameObject>("HP Canvas");
         GameObject canvas = Instantiate(HPcanvas, transform.position, Quaternion.identity);
         canvas.transform.SetParent(transform);
         GameObject slider = canvas.transform.Find("HP").gameObject;
         HPbar = slider.GetComponent<Slider>();
         HPbar.maxValue = HP;
+        // アニメーターの取得
+        animator = transform.Find("Attack Area").gameObject.GetComponent<Animator>();
     }
 
 
@@ -63,6 +65,7 @@ public class Enemy : MonoBehaviour
         // 攻撃
         if (canAttack)
         {
+            animator.SetTrigger("attack");
             Attack();
             canAttack = false;
             coolTime = 0.0f;
