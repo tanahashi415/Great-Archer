@@ -2,6 +2,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using TMPro;
 
 // プレイヤー操作に関するスクリプト
 public class PlayerControl : MonoBehaviour
@@ -13,8 +14,9 @@ public class PlayerControl : MonoBehaviour
     private Vector3 pos;        // キャラクターの座標
     private bool canCharge;     // 溜め可能か
     private Slider HPBar;       // HPバーのインスタンス
+    private Slider ChargeBar;   // 溜めゲージのインスタンス
+    private TextMeshProUGUI damageText; // ダメージ表記のテキスト
 
-    public Slider ChargeBar;            // 溜めゲージのインスタンス
     public GameObject chargeMaxEffect;  // 溜め完了エフェクト
     public GameObject chargeEffect;     // 溜めエフェクト
 
@@ -32,19 +34,29 @@ public class PlayerControl : MonoBehaviour
 
     void Start()
     {
+        // HPゲージの生成
+        GameObject HPcanvas = Resources.Load<GameObject>("HP Canvas");
+        GameObject canvas1 = Instantiate(HPcanvas, transform.position, Quaternion.identity);
+        canvas1.transform.SetParent(transform);
+        GameObject slider1 = canvas1.transform.Find("HP").gameObject;
+        HPBar = slider1.GetComponent<Slider>();
+        HPBar.maxValue = HP;
+        // ダメージ表記テキストの取得
+        GameObject text = canvas1.transform.Find("Damage").gameObject;
+        damageText = text.GetComponent<TextMeshProUGUI>();
+        damageText.enabled = false;
+        // 溜めゲージの生成
+        GameObject Chargecanvas = Resources.Load<GameObject>("Charge Canvas");
+        GameObject canvas2 = Instantiate(Chargecanvas, transform.position, Quaternion.identity);
+        canvas2.transform.SetParent(transform);
+        GameObject slider2 = canvas2.transform.Find("Charge").gameObject;
+        ChargeBar = slider2.GetComponent<Slider>();
+
         // 初期値の設定
         oldHP = HP;
         pos = transform.position;
         ChargeBar.value = 0.0f;
         canCharge = true;
-
-        // HPゲージの生成
-        GameObject HPcanvas = Resources.Load<GameObject>("HP Canvas");
-        GameObject canvas = Instantiate(HPcanvas, transform.position, Quaternion.identity);
-        canvas.transform.SetParent(transform);
-        GameObject slider = canvas.transform.Find("HP").gameObject;
-        HPBar = slider.GetComponent<Slider>();
-        HPBar.maxValue = HP;
     }
 
 
@@ -164,9 +176,13 @@ public class PlayerControl : MonoBehaviour
     IEnumerator Damage(SpriteRenderer sprite)
     {
         sprite.color = Color.red;
+        damageText.enabled = true;
+        damageText.text = received.ToString("f0");
+        damageText.color = Color.red;
 
         yield return new WaitForSeconds(0.5f);
 
+        damageText.enabled = false;
         sprite.color = Color.white;
     }
 
@@ -175,9 +191,13 @@ public class PlayerControl : MonoBehaviour
     IEnumerator Heal(SpriteRenderer sprite)
     {
         sprite.color = Color.green;
+        damageText.enabled = true;
+        damageText.text = received.ToString("f0");
+        damageText.color = Color.green;
 
         yield return new WaitForSeconds(0.5f);
 
+        damageText.enabled = false;
         sprite.color = Color.white;
     }
 }

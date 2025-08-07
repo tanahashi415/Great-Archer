@@ -4,8 +4,8 @@ using UnityEngine;
 public class Arrow : MonoBehaviour
 {
     private Rigidbody2D rb;
+    private GameObject weightPos;   // 力をかける位置
 
-    public GameObject weightPos;    // 力をかける位置
     public int penetration;         // 貫通数
     public float ATK;               // 矢のダメージ
     public float fixedDamage;       // 矢の固定ダメージ
@@ -13,6 +13,7 @@ public class Arrow : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        weightPos = transform.Find("Weight").gameObject;
     }
 
     void Update()
@@ -20,23 +21,24 @@ public class Arrow : MonoBehaviour
 
     }
 
-    void FixedUpdate()
+    protected virtual void FixedUpdate()
     {
         // 矢尻に力をかける
         rb.AddForceAtPosition(0.07f * Vector2.down, weightPos.transform.position, ForceMode2D.Force);
     }
 
-    void OnTriggerEnter2D(Collider2D collision)
+    protected virtual void OnTriggerEnter2D(Collider2D collision)
     {
+        string tag = collision.gameObject.tag;
         // ボーダーに触れたら破壊
-        if (collision.gameObject.tag == "Border")
+        if (tag == "Border")
         {
             Destroy(gameObject);
         }
         // 敵に触れたらダメージを与える
-        else if (collision.gameObject.tag == "Enemy")
+        else if (tag == "Enemy")
         {
-            // ダメージ処理
+            // ダメージ計算
             Enemy script = collision.gameObject.GetComponent<Enemy>();
             float speed = rb.linearVelocity.magnitude;
             float damage = (1 + 0.1f * (speed - 10.0f)) * ATK - script.DEF;
@@ -44,7 +46,30 @@ public class Arrow : MonoBehaviour
             {
                 damage = 0;
             }
-            Debug.Log(damage);
+            // ダメージ処理
+            script.HP -= damage + fixedDamage;
+
+            // 貫通処理
+            if (penetration > 0)
+            {
+                penetration--;
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
+        }
+        else if (tag == "WeakPoint")
+        {
+            // ダメージ計算
+            Enemy script = collision.gameObject.transform.parent.gameObject.GetComponent<Enemy>();
+            float speed = rb.linearVelocity.magnitude;
+            float damage = 2 * ((1 + 0.1f * (speed - 10.0f)) * ATK - script.DEF);
+            if (damage < 0)
+            {
+                damage = 0;
+            }
+            // ダメージ処理
             script.HP -= damage + fixedDamage;
 
             // 貫通処理

@@ -1,19 +1,21 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using TMPro;
 
 // 敵に関するスクリプト
 public class Enemy : MonoBehaviour
 {
-    private float oldHP;            // 前フレームのHP
-    private bool canMove;           // 移動できるか
-    private bool canAttack;         // 攻撃できるか
-    private float received;         // 被ダメージ
-    private float coolTime;         // 攻撃のクールタイム
-    protected PlayerControl script; // 接触相手のプレイヤーのスクリプト
-    protected Vector2 initialPos;   // 初期位置
-    private Slider HPbar;           // HPバーのインスタンス
-    private Animator animator;      // アニメーターのインスタンス
+    private float oldHP;                // 前フレームのHP
+    protected bool canMove;               // 移動できるか
+    private bool canAttack;             // 攻撃できるか
+    private float received;             // 被ダメージ
+    private float coolTime;             // 攻撃のクールタイム
+    protected PlayerControl script;     // 接触相手のプレイヤーのスクリプト
+    protected Vector2 initialPos;       // 初期位置
+    private Slider HPbar;               // HPバーのインスタンス
+    private Animator animator;          // アニメーターのインスタンス
+    private TextMeshProUGUI damageText; // ダメージ表記のテキスト
 
     [Header("基礎パラメータ")]
     public float HP;        // 体力
@@ -25,13 +27,6 @@ public class Enemy : MonoBehaviour
 
     void Start()
     {
-        // 初期値の設定
-        oldHP = HP;
-        canMove = true;
-        canAttack = false;
-        coolTime = 0.0f;
-        initialPos = transform.position;
-
         // HPゲージの生成
         GameObject HPcanvas = Resources.Load<GameObject>("HP Canvas");
         GameObject canvas = Instantiate(HPcanvas, transform.position, Quaternion.identity);
@@ -39,8 +34,23 @@ public class Enemy : MonoBehaviour
         GameObject slider = canvas.transform.Find("HP").gameObject;
         HPbar = slider.GetComponent<Slider>();
         HPbar.maxValue = HP;
+        // ダメージ表記テキストの取得
+        GameObject text = canvas.transform.Find("Damage").gameObject;
+        damageText = text.GetComponent<TextMeshProUGUI>();
+        damageText.enabled = false;
         // アニメーターの取得
-        animator = transform.Find("Attack Area").gameObject.GetComponent<Animator>();
+        if (transform.Find("Attack Area").gameObject)
+        {
+            animator = transform.Find("Attack Area").gameObject.GetComponent<Animator>();
+        }
+        
+
+        // 初期値の設定
+        oldHP = HP;
+        canMove = true;
+        canAttack = false;
+        coolTime = 0.0f;
+        initialPos = transform.position;
     }
 
 
@@ -65,7 +75,6 @@ public class Enemy : MonoBehaviour
         // 攻撃
         if (canAttack)
         {
-            animator.SetTrigger("attack");
             Attack();
             canAttack = false;
             coolTime = 0.0f;
@@ -124,6 +133,7 @@ public class Enemy : MonoBehaviour
     // 攻撃
     protected virtual void Attack()
     {
+        animator.SetTrigger("attack");
         script.HP -= ATK;
     }
 
@@ -132,9 +142,13 @@ public class Enemy : MonoBehaviour
     IEnumerator Damage(SpriteRenderer sprite)
     {
         sprite.color = Color.red;
+        damageText.enabled = true;
+        damageText.text = received.ToString("f0");
+        damageText.color = Color.red;
 
         yield return new WaitForSeconds(0.5f);
 
+        damageText.enabled = false;
         sprite.color = Color.white;
     }
 
@@ -143,9 +157,13 @@ public class Enemy : MonoBehaviour
     IEnumerator Heal(SpriteRenderer sprite)
     {
         sprite.color = Color.green;
+        damageText.enabled = true;
+        damageText.text = received.ToString("f0");
+        damageText.color = Color.green;
 
         yield return new WaitForSeconds(0.5f);
 
+        damageText.enabled = false;
         sprite.color = Color.white;
     }
 

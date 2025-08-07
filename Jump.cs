@@ -1,7 +1,7 @@
 using UnityEngine;
 
 // 跳ねるタイプの敵キャラ
-public class Rabbit : Enemy
+public class Jump : Enemy
 {
     private float t;  // 滞空時間
 
