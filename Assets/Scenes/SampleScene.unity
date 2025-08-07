@@ -272,7 +272,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!212 &55852829
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -315,7 +315,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1005379453
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 8b90b8e747f3aa44c9185a73a90daa58, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -337,7 +337,7 @@ Transform:
   m_GameObject: {fileID: 55852828}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8, y: -1.3, z: 0}
+  m_LocalPosition: {x: 10, y: -1.3, z: 0}
   m_LocalScale: {x: -1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -428,7 +428,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef0bcff0ab0eb1147bfc0daebf771ad0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HP: 100
+  HPcanvas: {fileID: 6991150767224255497, guid: f85b4522255a9034ab9ab90a332ffada, type: 3}
+  HP: 20
   ATK: 1
   ATKSPD: 1
   DEF: 0
@@ -982,7 +983,7 @@ MonoBehaviour:
   m_Intensity: 1
   m_LightVolumeIntensity: 1
   m_LightVolumeEnabled: 0
-  m_ApplyToSortingLayers: 000000007ddfec3b5f96ca6a
+  m_ApplyToSortingLayers: 000000007ddfec3b5f96ca6ad947f1ba
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -1471,7 +1472,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1005379453
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 6a4da3e1e4280c943a428619d7f1fe00, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1493,7 +1494,7 @@ Transform:
   m_GameObject: {fileID: 1098366734}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5, y: -0.7, z: 0}
+  m_LocalPosition: {x: 10, y: -0.7, z: 0}
   m_LocalScale: {x: -1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1511,9 +1512,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21d695ef22b6dd645b6a70cd4f870636, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HP: 100
+  HPcanvas: {fileID: 6991150767224255497, guid: f85b4522255a9034ab9ab90a332ffada, type: 3}
+  HP: 30
   ATK: 5
-  ATKSPD: 2
+  ATKSPD: 3
   DEF: 1
   SPD: 1
 --- !u!50 &1098366738
@@ -11516,7 +11518,7 @@ GameObject:
   - component: {fileID: 1842844098}
   - component: {fileID: 1842844097}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: Charge Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11749,6 +11751,10 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 734066094357029415, guid: cde94001b75f9d641b027ee1bae7a77f, type: 3}
       propertyPath: slider
+      value: 
+      objectReference: {fileID: 59950797}
+    - target: {fileID: 734066094357029415, guid: cde94001b75f9d641b027ee1bae7a77f, type: 3}
+      propertyPath: ChargeBar
       value: 
       objectReference: {fileID: 59950797}
     - target: {fileID: 734066094357029415, guid: cde94001b75f9d641b027ee1bae7a77f, type: 3}
