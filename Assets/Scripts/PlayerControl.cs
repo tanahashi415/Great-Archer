@@ -14,7 +14,6 @@ public class PlayerControl : MonoBehaviour
     private bool canCharge;     // 溜め可能か
     private Slider HPBar;       // HPバーのインスタンス
 
-    public GameObject HPcanvas;     // HP表示用のキャンバス
     public Slider ChargeBar;            // 溜めゲージのインスタンス
     public GameObject chargeMaxEffect;  // 溜め完了エフェクト
     public GameObject chargeEffect;     // 溜めエフェクト
@@ -40,6 +39,7 @@ public class PlayerControl : MonoBehaviour
         canCharge = true;
 
         // HPゲージの生成
+        GameObject HPcanvas = Resources.Load<GameObject>("HP Canvas");
         GameObject canvas = Instantiate(HPcanvas, transform.position, Quaternion.identity);
         canvas.transform.SetParent(transform);
         GameObject slider = canvas.transform.Find("HP").gameObject;
