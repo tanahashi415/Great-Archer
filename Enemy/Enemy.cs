@@ -17,6 +17,7 @@ public class Enemy : MonoBehaviour
     private Animator animator;          // アニメーターのインスタンス
     private TextMeshProUGUI damageText; // ダメージ表記のテキスト
     private GameObject coinEmmision;    // コイン放出のゲームオブジェクト
+    private Coroutine coroutine;        // コールチン格納用
 
     [Header("基礎パラメータ")]
     public float HP;        // 体力
@@ -127,14 +128,25 @@ public class Enemy : MonoBehaviour
                 // ダメージを受けた時
                 if (received > 0)
                 {
-                    // ダメージエフェクト
-                    StartCoroutine(Damage(sprite));
+                    // 前のコールチンを停止
+                    if (coroutine != null)
+                    {
+                        StopCoroutine(coroutine);
+                    }
+                    // 新たにコールチンを開始
+                    coroutine = StartCoroutine(Damage(sprite));
+                    
                 }
                 // 回復した時
                 else if (received < 0)
                 {
-                    // 回復エフェクト
-                    StartCoroutine(Heal(sprite));
+                    // 前のコールチンを停止
+                    if (coroutine != null)
+                    {
+                        StopCoroutine(coroutine);
+                    }
+                    // 新たにコールチンを開始
+                    coroutine = StartCoroutine(Heal(sprite));
                 }
             }
         }

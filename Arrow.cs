@@ -57,8 +57,12 @@ public class Arrow : MonoBehaviour
     // ダメージ処理
     void Damage(float rate)
     {
+        // コンボ加算
+        ComboManager.Combo();
+        // ダメージ計算
         float speed = rb.linearVelocity.magnitude;
-        float damage = rate * ((1 + 0.1f * (speed - 10.0f)) * ATK - script.DEF);
+        float damage = (1 + 0.1f * (speed - 10.0f)) * ATK - script.DEF; // 基本計算式
+        damage = rate * (1 + 0.1f * ComboManager.combo) * damage;       // ボーナス計算式
         if (damage < 0)
         {
             damage = 0;
@@ -80,17 +84,19 @@ public class Arrow : MonoBehaviour
     // ヒットストップ
     IEnumerator HitStop(Transform target)
     {
+        WaitForSecondsRealtime wait = new WaitForSecondsRealtime(0.03f);  
+        // ザ・ワールド！
         Time.timeScale = 0.0f;
 
+        // 振動させる
         target.position = new Vector2(target.position.x + 0.1f, target.position.y);
-        yield return new WaitForSecondsRealtime(0.03f);
-
+        yield return wait;
         target.position = new Vector2(target.position.x - 0.2f, target.position.y);
-        yield return new WaitForSecondsRealtime(0.03f);
-
+        yield return wait;
         target.position = new Vector2(target.position.x + 0.1f, target.position.y);
-        yield return new WaitForSecondsRealtime(0.03f);
+        yield return wait;
 
+        // そして時は動き出す
         Time.timeScale = 1.0f;
 
         // 貫通処理
