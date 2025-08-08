@@ -14,8 +14,9 @@ public class PlayerControl : MonoBehaviour
     private bool canCharge;     // 溜め可能か
     private Slider HPBar;       // HPバーのインスタンス
     private Slider ChargeBar;   // 溜めゲージのインスタンス
-    private TextMeshProUGUI damageText; // ダメージ表記のテキスト
     private Image image;        // 溜めゲージのImageコンポーネント
+    private Coroutine coroutine;        // コールチン格納用
+    private TextMeshProUGUI damageText; // ダメージ表記のテキスト
 
     public GameObject chargeMaxEffect;  // 溜め完了エフェクト
     public GameObject chargeEffect;     // 溜めエフェクト
@@ -128,6 +129,7 @@ public class PlayerControl : MonoBehaviour
                 chargeMaxEffect.SetActive(false);
                 chargeEffect.SetActive(false);
                 chargeTime = 0.0f;
+                GameOverManager.GameOver();
                 Destroy(gameObject);
             }
             else
@@ -137,14 +139,24 @@ public class PlayerControl : MonoBehaviour
                 // ダメージを受けた時
                 if (received > 0)
                 {
-                    // ダメージエフェクト
-                    StartCoroutine(Damage(sprite));
+                    // 前のコールチンを停止
+                    if (coroutine != null)
+                    {
+                        StopCoroutine(coroutine);
+                    }
+                    // 新たにコールチンを開始
+                    coroutine = StartCoroutine(Damage(sprite));
                 }
                 // 回復した時
                 else if (received < 0)
                 {
-                    // 回復エフェクト
-                    StartCoroutine(Heal(sprite));
+                    // 前のコールチンを停止
+                    if (coroutine != null)
+                    {
+                        StopCoroutine(coroutine);
+                    }
+                    // 新たにコールチンを開始
+                    coroutine = StartCoroutine(Heal(sprite));
                 }
             }
         }
