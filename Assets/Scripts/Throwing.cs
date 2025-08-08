@@ -11,6 +11,11 @@ public class Throwing : Arrow
         {
             Destroy(gameObject);
         }
+        // 矢に触れたら破壊
+        else if (tag == "Arrow")
+        {
+            Destroy(gameObject);
+        }
         // プレイヤーに触れたらダメージを与える
         else if (tag == "Player")
         {

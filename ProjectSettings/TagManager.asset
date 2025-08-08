@@ -8,6 +8,8 @@ TagManager:
   - Enemy
   - Stop
   - WeakPoint
+  - Arrow
+  - Coin
   layers:
   - Default
   - TransparentFX

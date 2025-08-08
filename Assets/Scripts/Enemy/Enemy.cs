@@ -7,7 +7,7 @@ using TMPro;
 public class Enemy : MonoBehaviour
 {
     private float oldHP;                // 前フレームのHP
-    protected bool canMove;               // 移動できるか
+    protected bool canMove;             // 移動できるか
     private bool canAttack;             // 攻撃できるか
     private float received;             // 被ダメージ
     private float coolTime;             // 攻撃のクールタイム
@@ -16,6 +16,7 @@ public class Enemy : MonoBehaviour
     private Slider HPbar;               // HPバーのインスタンス
     private Animator animator;          // アニメーターのインスタンス
     private TextMeshProUGUI damageText; // ダメージ表記のテキスト
+    private GameObject coinEmmision;    // コイン放出のゲームオブジェクト
 
     [Header("基礎パラメータ")]
     public float HP;        // 体力
@@ -23,9 +24,10 @@ public class Enemy : MonoBehaviour
     public float ATKSPD;    // 攻撃速度
     public float DEF;       // 防御力
     public float SPD;       // 移動スピード
+    public int coin;        // 獲得コイン
 
 
-    void Start()
+    protected virtual void Start()
     {
         // HPゲージの生成
         GameObject HPcanvas = Resources.Load<GameObject>("HP Canvas");
@@ -39,11 +41,24 @@ public class Enemy : MonoBehaviour
         damageText = text.GetComponent<TextMeshProUGUI>();
         damageText.enabled = false;
         // アニメーターの取得
-        if (transform.Find("Attack Area").gameObject)
+        animator = transform.Find("Attack Area").gameObject.GetComponent<Animator>();
+        // コイン放出の設定
+        if (coin == 0)
         {
-            animator = transform.Find("Attack Area").gameObject.GetComponent<Animator>();
+            coinEmmision = null;
         }
-        
+        else if (coin < 10)
+        {
+            coinEmmision = Resources.Load<GameObject>("Coin Emission 5");
+        }
+        else if (coin < 100)
+        {
+            coinEmmision = Resources.Load<GameObject>("Coin Emission 10");
+        }
+        else
+        {
+            coinEmmision = Resources.Load<GameObject>("Coin Emission 40");
+        }
 
         // 初期値の設定
         oldHP = HP;
@@ -88,15 +103,27 @@ public class Enemy : MonoBehaviour
         // HPが変化したとき
         if (received != 0)
         {
-            // HPが0になったら破壊
+            SpriteRenderer sprite = GetComponent<SpriteRenderer>();
+
+            // HPが0になったら撃破
             if (HP <= 0)
             {
-                Destroy(gameObject);
+                ATK = 0;
+                // 何度も撃破できてしまう対策
+                if (oldHP > 0)
+                {
+                    // コインの放出
+                    if (coinEmmision)
+                    {
+                        Instantiate(coinEmmision, transform.position, Quaternion.identity);
+                    }
+                    CoinManager.GetCoin(coin);
+                    // 撃破エフェクト
+                    StartCoroutine(Defeat(sprite));
+                }
             }
             else
             {
-                SpriteRenderer sprite = GetComponent<SpriteRenderer>();
-
                 // ダメージを受けた時
                 if (received > 0)
                 {
@@ -137,17 +164,33 @@ public class Enemy : MonoBehaviour
         script.HP -= ATK;
     }
 
-    
+
+    // 撃破エフェクト
+    IEnumerator Defeat(SpriteRenderer sprite)
+    {
+        while (sprite.color.a > 0.0f)
+        {
+            sprite.color = sprite.color - new Color(0, 0, 0, Time.deltaTime);
+            yield return null;
+        }
+
+        Destroy(gameObject);
+    }
+
+
     // ダメージエフェクト
     IEnumerator Damage(SpriteRenderer sprite)
     {
+        // 色を赤色に変更
         sprite.color = Color.red;
+        // ダメージを表記
         damageText.enabled = true;
         damageText.text = received.ToString("f0");
         damageText.color = Color.red;
 
         yield return new WaitForSeconds(0.5f);
 
+        // 元に戻す
         damageText.enabled = false;
         sprite.color = Color.white;
     }
@@ -156,13 +199,16 @@ public class Enemy : MonoBehaviour
     // 回復エフェクト
     IEnumerator Heal(SpriteRenderer sprite)
     {
+        // 色を緑色に変更
         sprite.color = Color.green;
+        // ダメージを表記
         damageText.enabled = true;
         damageText.text = received.ToString("f0");
         damageText.color = Color.green;
 
         yield return new WaitForSeconds(0.5f);
 
+        // 元に戻す
         damageText.enabled = false;
         sprite.color = Color.white;
     }
@@ -171,6 +217,7 @@ public class Enemy : MonoBehaviour
     // プレイヤーまで到達したとき
     void OnTriggerEnter2D(Collider2D collision)
     {
+        // 動けないようになる
         if (collision.gameObject.tag == "Player")
         {
             script = collision.gameObject.GetComponent<PlayerControl>();
@@ -182,6 +229,7 @@ public class Enemy : MonoBehaviour
     // プレイヤーから離れた時
     void OnTriggerExit2D(Collider2D collision)
     {
+        // 動けるようになる
         if (collision.gameObject.tag == "Player")
         {
             canMove = true;
