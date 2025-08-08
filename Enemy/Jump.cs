@@ -14,7 +14,7 @@ public class Jump : Enemy
         if (transform.position.y > initialPos.y)
         {
             t += Time.deltaTime;
-            transform.Translate(-SPD * Time.deltaTime, (jumpPower - 9.8f * t) * Time.deltaTime, 0);
+            transform.Translate(-SPD * Time.deltaTime, (jumpPower - 9.81f * t) * Time.deltaTime, 0);
         }
         else
         {
@@ -29,7 +29,7 @@ public class Jump : Enemy
         if (transform.position.y > initialPos.y)
         {
             t += Time.deltaTime;
-            transform.Translate(0, (jumpPower - 9.8f * t) * Time.deltaTime, 0);
+            transform.Translate(0, (jumpPower - 9.81f * t) * Time.deltaTime, 0);
         }
     }
 }

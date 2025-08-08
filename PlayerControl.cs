@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
@@ -16,6 +15,7 @@ public class PlayerControl : MonoBehaviour
     private Slider HPBar;       // HPバーのインスタンス
     private Slider ChargeBar;   // 溜めゲージのインスタンス
     private TextMeshProUGUI damageText; // ダメージ表記のテキスト
+    private Image image;        // 溜めゲージのImageコンポーネント
 
     public GameObject chargeMaxEffect;  // 溜め完了エフェクト
     public GameObject chargeEffect;     // 溜めエフェクト
@@ -51,6 +51,9 @@ public class PlayerControl : MonoBehaviour
         canvas2.transform.SetParent(transform);
         GameObject slider2 = canvas2.transform.Find("Charge").gameObject;
         ChargeBar = slider2.GetComponent<Slider>();
+        // 溜めゲージのImageコンポーネント取得
+        GameObject fill = ChargeBar.transform.Find("Fill Area/Fill").gameObject;
+        image = fill.GetComponent<Image>();
 
         // 初期値の設定
         oldHP = HP;
@@ -103,7 +106,7 @@ public class PlayerControl : MonoBehaviour
                 // 矢のパラメータを変更
                 Arrow script = obj.GetComponent<Arrow>();
                 script.ATK = ATK;
-                script.penetration = penetration;
+                script.penetration = penetration + chargeLevel;
                 script.fixedDamage = fixedDamage;
                 // 矢を射出
                 Rigidbody2D rb = obj.GetComponent<Rigidbody2D>();
@@ -121,6 +124,10 @@ public class PlayerControl : MonoBehaviour
             // HPが0になったら破壊
             if (HP <= 0)
             {
+                canCharge = false;
+                chargeMaxEffect.SetActive(false);
+                chargeEffect.SetActive(false);
+                chargeTime = 0.0f;
                 Destroy(gameObject);
             }
             else
@@ -155,8 +162,6 @@ public class PlayerControl : MonoBehaviour
         chargeTime = 0.0f;
 
         // ゲージを青色に変更
-        GameObject fill = ChargeBar.transform.Find("Fill Area/Fill").gameObject;
-        Image image = fill.GetComponent<Image>();
         image.color = Color.blue;
 
         // 溜め時間リセット
@@ -170,7 +175,7 @@ public class PlayerControl : MonoBehaviour
         image.color = Color.yellow;
         canCharge = true;
     }
-    
+
 
     // ダメージエフェクト
     IEnumerator Damage(SpriteRenderer sprite)
@@ -199,5 +204,13 @@ public class PlayerControl : MonoBehaviour
 
         damageText.enabled = false;
         sprite.color = Color.white;
+    }
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Coin")
+        {
+            CoinManager.GetCoin(1);
+        }
     }
 }
