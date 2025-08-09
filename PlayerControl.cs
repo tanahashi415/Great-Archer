@@ -28,12 +28,14 @@ public class PlayerControl : MonoBehaviour
     public int penetration;     // 貫通数
     public float arrowSpeed;    // 矢の速さ
     public float fixedDamage;   // 矢の固定ダメージ
-
-    public float HP;            // 体力
+    public float MaxHP;         // 最大体力
     public float ATK;           // 攻撃力
 
+    [Header("設定しなくていもの")]
+    public float HP;            // 現在の体力
+    public static bool isStore; // 買い物中かどうか
 
-    void Start()
+    void Awake()
     {
         // HPゲージの生成
         GameObject HPcanvas = Resources.Load<GameObject>("HP Canvas");
@@ -57,19 +59,25 @@ public class PlayerControl : MonoBehaviour
         image = fill.GetComponent<Image>();
 
         // 初期値の設定
+        HP = MaxHP;
         oldHP = HP;
         pos = transform.position;
         ChargeBar.value = 0.0f;
         canCharge = true;
+        isStore = false;
     }
 
 
     void Update()
     {
         // HPの更新
+        if (HP > MaxHP)
+        {
+            HP = MaxHP;
+        }
         HPBar.value = HP;
 
-        if (canCharge)
+        if (canCharge && !isStore)
         {
             // 溜めの進捗表示
             ChargeBar.value = chargeSpeed * chargeTime;
@@ -209,6 +217,7 @@ public class PlayerControl : MonoBehaviour
     {
         sprite.color = Color.green;
         damageText.enabled = true;
+        received = -received;
         damageText.text = received.ToString("f0");
         damageText.color = Color.green;
 
@@ -222,7 +231,7 @@ public class PlayerControl : MonoBehaviour
     {
         if (collision.gameObject.tag == "Coin")
         {
-            CoinManager.GetCoin(1);
+            CoinManager.coin++;
         }
     }
 }

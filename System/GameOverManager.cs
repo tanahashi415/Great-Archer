@@ -15,4 +15,12 @@ public class GameOverManager : MonoBehaviour
     {
         panel.SetActive(true);
     }
+
+    public void Retry()
+    {
+    }
+
+    public void ToTitle()
+    {
+    }
 }

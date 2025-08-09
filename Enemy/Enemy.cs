@@ -20,12 +20,15 @@ public class Enemy : MonoBehaviour
     private Coroutine coroutine;        // コールチン格納用
 
     [Header("基礎パラメータ")]
-    public float HP;        // 体力
+    public float MaxHP;        // 体力
     public float ATK;       // 攻撃力
     public float ATKSPD;    // 攻撃速度
     public float DEF;       // 防御力
     public float SPD;       // 移動スピード
     public int coin;        // 獲得コイン
+
+    [Header("設定しなくていもの")]
+    public float HP;            // 現在の体力
 
 
     protected virtual void Start()
@@ -62,6 +65,7 @@ public class Enemy : MonoBehaviour
         }
 
         // 初期値の設定
+        HP = MaxHP;
         oldHP = HP;
         canMove = true;
         canAttack = false;
@@ -97,6 +101,10 @@ public class Enemy : MonoBehaviour
         }
 
         // HPの更新
+        if (HP > MaxHP)
+        {
+            HP = MaxHP;
+        }
         HPbar.value = HP;
 
         // HPの変化を確認
@@ -118,7 +126,7 @@ public class Enemy : MonoBehaviour
                     {
                         Instantiate(coinEmmision, transform.position, Quaternion.identity);
                     }
-                    CoinManager.GetCoin(coin);
+                    CoinManager.coin += coin;
                     // 撃破エフェクト
                     StartCoroutine(Defeat(sprite));
                 }
@@ -215,6 +223,7 @@ public class Enemy : MonoBehaviour
         sprite.color = Color.green;
         // ダメージを表記
         damageText.enabled = true;
+        received = -received;
         damageText.text = received.ToString("f0");
         damageText.color = Color.green;
 
@@ -226,14 +235,19 @@ public class Enemy : MonoBehaviour
     }
 
 
-    // プレイヤーまで到達したとき
+    
     void OnTriggerEnter2D(Collider2D collision)
     {
-        // 動けないようになる
+        // プレイヤーまで到達したとき動けないようになる
         if (collision.gameObject.tag == "Player")
         {
             script = collision.gameObject.GetComponent<PlayerControl>();
             canMove = false;
+        }
+        // ボーダーに触れると破壊
+        else if (collision.gameObject.tag == "Border")
+        {
+            Destroy(gameObject);
         }
     }
 
