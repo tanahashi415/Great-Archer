@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 1db20953c1a862749bfc2c0bbb630875
+guid: 1e03c6c3bba6ab249b7e57d66d74da9e
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 3792783162459204694
-    second: mon_029_0
+      213: 8404014035177998705
+    second: mark_batsu (1)_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -51,7 +51,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 20
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -113,23 +113,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: mon_029_0
+      name: mark_batsu (1)_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 2
-        width: 40
-        height: 46
+        x: 49
+        y: 57
+        width: 294
+        height: 293
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 65ca674f03ca2a430800000000000000
-      internalID: 3792783162459204694
+      spriteID: 1798e261d3e01a470800000000000000
+      internalID: 8404014035177998705
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      mon_029_0: 3792783162459204694
+      mark_batsu (1)_0: 8404014035177998705
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

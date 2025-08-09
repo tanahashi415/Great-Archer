@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 6115071914764858339}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 12, y: -1.5, z: 0}
+  m_LocalPosition: {x: 13, y: -1.5, z: 0}
   m_LocalScale: {x: -0.8, y: 0.8, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -148,12 +148,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef0bcff0ab0eb1147bfc0daebf771ad0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HP: 20
+  MaxHP: 20
   ATK: 1
   ATKSPD: 1
   DEF: 0
   SPD: 2
   coin: 1
+  HP: 20
   jumpPower: 5
 --- !u!1 &6586920896644508393
 GameObject:

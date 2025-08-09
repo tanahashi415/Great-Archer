@@ -110,8 +110,9 @@ MonoBehaviour:
   penetration: 0
   arrowSpeed: 1
   fixedDamage: 0
-  HP: 100
+  MaxHP: 100
   ATK: 10
+  HP: 100
 --- !u!61 &-1330779829454203320
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -34,7 +34,8 @@ public class Arrow : MonoBehaviour
         // ボーダーに触れたら破壊
         if (tag == "Border")
         {
-            StartCoroutine(DelayDestroy(gameObject));
+            Time.timeScale = 1.0f;
+            Destroy(gameObject);
         }
         // 敵に触れたらダメージを与える
         else if (tag == "Enemy")
@@ -77,7 +78,8 @@ public class Arrow : MonoBehaviour
         // ボーダーに触れたら破壊
         if (tag == "Border")
         {
-            StartCoroutine(DelayDestroy(gameObject));
+            Time.timeScale = 1.0f;
+            Destroy(gameObject);
         }
     }
 
@@ -113,7 +115,7 @@ public class Arrow : MonoBehaviour
     // ヒットストップとボーダー接触の同時発生回避
     IEnumerator DelayDestroy(GameObject gameObject)
     {
-        yield return null;
+        yield return new WaitForSeconds(0.1f);
         Destroy(gameObject);
     }
 }

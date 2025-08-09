@@ -13,7 +13,7 @@ public class ComboManager : MonoBehaviour
     private Vector2 initialPos;             // 初期位置
 
     public GameObject text; // テキストオブジェクトのインスタンス
-    public float timeLimit; // コンボ受付時間
+    public static float timeLimit; // コンボ受付時間
 
     void Start()
     {
@@ -21,7 +21,9 @@ public class ComboManager : MonoBehaviour
         rectTransform = text.GetComponent<RectTransform>();
         initialPos = rectTransform.position;
         comboText.enabled = false;
+        isCombo = false;
         combo = 0;
+        timeLimit = 1.0f;
     }
 
     void Update()
@@ -56,15 +58,15 @@ public class ComboManager : MonoBehaviour
         // 振動させる
         float time = 0.025f;
         WaitForSeconds wait = new WaitForSeconds(time);
-        rectTransform.position = new Vector2(rectTransform.position.x, rectTransform.position.y + 20.0f);
+        rectTransform.position = new Vector2(rectTransform.position.x, rectTransform.position.y + 15.0f);
         yield return wait;
-        rectTransform.position = new Vector2(rectTransform.position.x, rectTransform.position.y - 40.0f);
+        rectTransform.position = new Vector2(rectTransform.position.x, rectTransform.position.y - 30.0f);
         yield return wait;
-        rectTransform.position = new Vector2(rectTransform.position.x, rectTransform.position.y + 30.0f);
+        rectTransform.position = new Vector2(rectTransform.position.x, rectTransform.position.y + 25.0f);
         yield return wait;
-        rectTransform.position = new Vector2(rectTransform.position.x, rectTransform.position.y - 20.0f);
+        rectTransform.position = new Vector2(rectTransform.position.x, rectTransform.position.y - 15.0f);
         yield return wait;
-        rectTransform.position = new Vector2(rectTransform.position.x, rectTransform.position.y + 10.0f);
+        rectTransform.position = new Vector2(rectTransform.position.x, rectTransform.position.y + 5.0f);
         if (timeLimit > 0.1f)
         {
             yield return new WaitForSeconds(timeLimit - 0.1f);

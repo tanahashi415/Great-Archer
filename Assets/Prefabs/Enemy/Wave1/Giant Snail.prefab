@@ -195,12 +195,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21d695ef22b6dd645b6a70cd4f870636, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HP: 50
+  MaxHP: 50
   ATK: 1
   ATKSPD: 1
   DEF: 5
   SPD: 0.8
   coin: 0
+  HP: 50
 --- !u!1 &6829009332640457516
 GameObject:
   m_ObjectHideFlags: 0
