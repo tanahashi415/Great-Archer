@@ -259,9 +259,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxHP: 30
-  ATK: 5
+  ATK: 3
   ATKSPD: 1
   DEF: 0
-  SPD: 3
-  coin: 0
+  SPD: 4
+  coin: 3
   HP: 30

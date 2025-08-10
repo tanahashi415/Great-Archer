@@ -148,13 +148,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef0bcff0ab0eb1147bfc0daebf771ad0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxHP: 50
-  ATK: 3
+  MaxHP: 100
+  ATK: 4
   ATKSPD: 2
-  DEF: 0
+  DEF: 1
   SPD: 1.5
-  coin: 10
-  HP: 50
+  coin: 5
+  HP: 100
   jumpPower: 2
 --- !u!1 &8574989193282249172
 GameObject:

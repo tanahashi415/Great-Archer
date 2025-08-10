@@ -3268,35 +3268,35 @@ MonoBehaviour:
     price: 10
     value: 1
     ID: 2
-  - itemName: "\u77E2\u306E\u901F\u3055 +0.5m/s"
+  - itemName: "\u77E2\u306E\u901F\u3055 +5m/s"
     image: {fileID: 0}
     price: 10
     value: 0.5
     ID: 3
-  - itemName: "\u56FA\u5B9A\u30C0\u30E1\u30FC\u30B8 +1"
+  - itemName: "\u56FA\u5B9A\u30C0\u30E1\u30FC\u30B8 +3"
     image: {fileID: 0}
     price: 10
-    value: 1
+    value: 3
     ID: 4
   - itemName: "\u30B3\u30F3\u30DC\u6642\u9593\u5EF6\u9577 +0.1\u79D2"
     image: {fileID: 0}
     price: 10
     value: 0.1
     ID: 5
-  - itemName: "\u6700\u5927\u4F53\u529B +10"
+  - itemName: "\u6700\u5927\u4F53\u529B +20"
     image: {fileID: 0}
     price: 10
-    value: 10
+    value: 20
     ID: 6
-  - itemName: "\u653B\u6483\u529B +5"
+  - itemName: "\u653B\u6483\u529B +2"
     image: {fileID: 0}
     price: 10
-    value: 5
+    value: 2
     ID: 7
-  - itemName: "\u56DE\u5FA9 +100"
+  - itemName: "\u56DE\u5FA9 +20"
     image: {fileID: 0}
-    price: 100
-    value: 100
+    price: 5
+    value: 20
     ID: 8
 --- !u!1 &6622779320738899831
 GameObject:

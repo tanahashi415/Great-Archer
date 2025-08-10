@@ -118,7 +118,7 @@ public class PlayerControl : MonoBehaviour
                     Vector3 direction = mousePos - pos;
                     float angle = Vector3.SignedAngle(Vector3.right, direction, Vector3.forward);
                     // 矢を生成
-                    GameObject obj = Instantiate(arrow, pos + Vector3.right, Quaternion.Euler(angle * Vector3.forward));
+                    GameObject obj = Instantiate(arrow, pos, Quaternion.Euler(angle * Vector3.forward));
                     // 矢のパラメータを変更
                     Arrow script = obj.GetComponent<Arrow>();
                     script.ATK = ATK;

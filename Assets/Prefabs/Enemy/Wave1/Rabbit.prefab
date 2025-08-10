@@ -153,7 +153,7 @@ MonoBehaviour:
   ATKSPD: 1
   DEF: 0
   SPD: 2
-  coin: 1
+  coin: 2
   HP: 20
   jumpPower: 5
 --- !u!1 &6586920896644508393

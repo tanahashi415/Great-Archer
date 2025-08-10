@@ -108,7 +108,7 @@ MonoBehaviour:
   chargeSpeed: 100
   coolTime: 0.5
   penetration: 0
-  arrowSpeed: 1
+  arrowSpeed: 0.5
   fixedDamage: 0
   MaxHP: 100
   ATK: 10

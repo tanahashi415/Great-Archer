@@ -258,13 +258,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45abed2399eec1346a7459902e056e58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxHP: 15
-  ATK: 3
+  MaxHP: 40
+  ATK: 5
   ATKSPD: 3
   DEF: 0
   SPD: 2
-  coin: 0
-  HP: 15
+  coin: 5
+  HP: 40
   A: 1
   omega: 2
   stopPos_x: 0

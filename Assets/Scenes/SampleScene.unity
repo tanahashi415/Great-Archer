@@ -1260,8 +1260,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 127073076}
     - target: {fileID: 1427678049333611470, guid: a4742997af20e4d4a887c0921b897979, type: 3}
+      propertyPath: stage.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1427678049333611470, guid: a4742997af20e4d4a887c0921b897979, type: 3}
       propertyPath: stage.Array.data[0].wave.Array.size
-      value: 4
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1427678049333611470, guid: a4742997af20e4d4a887c0921b897979, type: 3}
       propertyPath: stage.Array.data[0].wave.Array.data[1].time
@@ -1282,7 +1286,7 @@ PrefabInstance:
     - target: {fileID: 1427678049333611470, guid: a4742997af20e4d4a887c0921b897979, type: 3}
       propertyPath: stage.Array.data[0].wave.Array.data[0].enemy
       value: 
-      objectReference: {fileID: 7232280345151573695, guid: c784cdf0f148de94982674be2d570f56, type: 3}
+      objectReference: {fileID: 2199277305965881927, guid: b54913aa8636b4343a4bd9705cac41f3, type: 3}
     - target: {fileID: 1427678049333611470, guid: a4742997af20e4d4a887c0921b897979, type: 3}
       propertyPath: stage.Array.data[0].wave.Array.data[1].enemy
       value: 
@@ -1576,7 +1580,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4557764939008522064, guid: b54913aa8636b4343a4bd9705cac41f3, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.3
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 4557764939008522064, guid: b54913aa8636b4343a4bd9705cac41f3, type: 3}
       propertyPath: m_LocalPosition.z

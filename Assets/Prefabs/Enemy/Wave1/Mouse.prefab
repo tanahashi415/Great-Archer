@@ -263,5 +263,5 @@ MonoBehaviour:
   ATKSPD: 1
   DEF: 0
   SPD: 5
-  coin: 0
+  coin: 1
   HP: 10
