@@ -124,6 +124,7 @@ public class Enemy : MonoBehaviour
                     // コインの放出
                     if (coinEmmision)
                     {
+                        SoundManager.instance.PlaySE(SoundManager.instance.coinSE, 1.0f);
                         Instantiate(coinEmmision, transform.position, Quaternion.identity);
                     }
                     CoinManager.coin += coin;
@@ -186,11 +187,11 @@ public class Enemy : MonoBehaviour
 
 
     // 撃破エフェクト
-    IEnumerator Defeat(SpriteRenderer sprite)
+    protected virtual IEnumerator Defeat(SpriteRenderer sprite)
     {
         while (sprite.color.a > 0.0f)
         {
-            sprite.color = sprite.color - new Color(0, 0, 0, Time.deltaTime);
+            sprite.color = sprite.color - new Color(0, 0, 0, 2.0f * Time.deltaTime);
             yield return null;
         }
 
