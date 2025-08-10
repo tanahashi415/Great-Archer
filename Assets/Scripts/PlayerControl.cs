@@ -75,53 +75,63 @@ public class PlayerControl : MonoBehaviour
         {
             HP = MaxHP;
         }
+        HPBar.maxValue = MaxHP;
         HPBar.value = HP;
 
-        if (canCharge && !isStore)
+        if (isStore)
         {
-            // 溜めの進捗表示
-            ChargeBar.value = chargeSpeed * chargeTime;
-            // 溜め段階
-            if (ChargeBar.value < ChargeBar.maxValue)
+            StartCoroutine(CoolDown());
+        }
+        else
+        {
+            if (canCharge)
             {
-                chargeLevel = 0;
-            }
-            else if (ChargeBar.value >= ChargeBar.maxValue)
-            {
-                chargeLevel = 1;
-                chargeMaxEffect.SetActive(true);
-            }
+                // 溜めの進捗表示
+                ChargeBar.value = chargeSpeed * chargeTime;
+                // 溜め段階
+                if (ChargeBar.value < ChargeBar.maxValue)
+                {
+                    chargeLevel = 0;
+                }
+                else if (ChargeBar.value >= ChargeBar.maxValue)
+                {
+                    chargeLevel = 1;
+                    chargeMaxEffect.SetActive(true);
+                }
 
-            // 左ボタン長押しで弓を引く
-            if (Input.GetMouseButtonDown(0))
-            {
-                chargeTime = 0.0f;
-            }
-            else if (Input.GetMouseButton(0))
-            {
-                chargeTime += Time.deltaTime;
-                chargeEffect.SetActive(true);
-            }
-            // 左ボタンを離して矢を射る
-            else if (Input.GetMouseButtonUp(0))
-            {
-                // マウスの位置を取得し、ワールド座標に変換
-                Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition) + 10.0f * Vector3.forward;
-                // 射出角度の計算
-                Vector3 direction = mousePos - pos;
-                float angle = Vector3.SignedAngle(Vector3.right, direction, Vector3.forward);
-                // 矢を生成
-                GameObject obj = Instantiate(arrow, pos + Vector3.right, Quaternion.Euler(angle * Vector3.forward));
-                // 矢のパラメータを変更
-                Arrow script = obj.GetComponent<Arrow>();
-                script.ATK = ATK;
-                script.penetration = penetration + chargeLevel;
-                script.fixedDamage = fixedDamage;
-                // 矢を射出
-                Rigidbody2D rb = obj.GetComponent<Rigidbody2D>();
-                rb.AddForce((arrowSpeed + chargeLevel) * direction.normalized, ForceMode2D.Impulse);
-                // クールダウンの開始
-                StartCoroutine(CoolDown());
+                // 左ボタン長押しで弓を引く
+                if (Input.GetMouseButtonDown(0))
+                {
+                    chargeTime = 0.0f;
+                }
+                else if (Input.GetMouseButton(0))
+                {
+                    chargeTime += Time.deltaTime;
+                    chargeEffect.SetActive(true);
+                }
+                // 左ボタンを離して矢を射る
+                else if (Input.GetMouseButtonUp(0))
+                {
+                    // マウスの位置を取得し、ワールド座標に変換
+                    Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition) + 10.0f * Vector3.forward;
+                    // 射出角度の計算
+                    Vector3 direction = mousePos - pos;
+                    float angle = Vector3.SignedAngle(Vector3.right, direction, Vector3.forward);
+                    // 矢を生成
+                    GameObject obj = Instantiate(arrow, pos + Vector3.right, Quaternion.Euler(angle * Vector3.forward));
+                    // 矢のパラメータを変更
+                    Arrow script = obj.GetComponent<Arrow>();
+                    script.ATK = ATK;
+                    script.penetration = penetration + chargeLevel;
+                    script.fixedDamage = fixedDamage;
+                    // 矢を射出
+                    Rigidbody2D rb = obj.GetComponent<Rigidbody2D>();
+                    rb.AddForce((arrowSpeed + chargeLevel) * direction.normalized, ForceMode2D.Impulse);
+                    // SEの再生
+                    SoundManager.instance.PlaySE(SoundManager.instance.shotSE, 1.0f);
+                    // クールダウンの開始
+                    StartCoroutine(CoolDown());
+                }
             }
         }
 
@@ -200,6 +210,9 @@ public class PlayerControl : MonoBehaviour
     // ダメージエフェクト
     IEnumerator Damage(SpriteRenderer sprite)
     {
+        // SE再生
+        SoundManager.instance.PlaySE(SoundManager.instance.damageSE, 1.0f);
+        // スプライトを赤色に
         sprite.color = Color.red;
         damageText.enabled = true;
         damageText.text = received.ToString("f0");

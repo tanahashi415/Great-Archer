@@ -63,13 +63,16 @@ public class Arrow : MonoBehaviour
         // ダメージ計算
         float speed = rb.linearVelocity.magnitude;
         float damage = (1 + 0.1f * (speed - 10.0f)) * ATK - script.DEF; // 基本計算式
-        damage = rate * (1 + 0.1f * ComboManager.combo) * damage;       // ボーナス計算式
+        float comboBonus = 1 + 0.1f * ComboManager.combo;
+        damage = rate * comboBonus * damage;       // ボーナス計算式
         if (damage < 0)
         {
             damage = 0;
         }
         // ダメージ処理
         script.HP -= damage + fixedDamage;
+        // SE
+        SoundManager.instance.PlayHitSE(comboBonus);
     }
 
     void OnCollisionEnter2D(Collision2D collision)

@@ -35,7 +35,7 @@ public class WhiteTiger : Enemy
             ATKSPD = 0.0f;
             transform.Translate(-SPD * Time.deltaTime, 0, 0);
         }
-        
+
     }
 
 
@@ -65,5 +65,17 @@ public class WhiteTiger : Enemy
             yield return null;
             t += Time.deltaTime;
         }
+    }
+
+
+    protected override IEnumerator Defeat(SpriteRenderer sprite)
+    {
+        while (sprite.color.a > 0.0f)
+        {
+            sprite.color = sprite.color - new Color(0, 0, 0, Time.deltaTime);
+            yield return null;
+        }
+
+        Destroy(gameObject);
     }
 }

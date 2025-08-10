@@ -121,6 +121,8 @@ public class WaveSystemManager : MonoBehaviour
         }
 
         // ステージクリアの処理をここに書く
+        PlayerControl.isStore = true;
+        GameOverManager.StageClear();
         Debug.Log("ステージクリア");
     }
 }

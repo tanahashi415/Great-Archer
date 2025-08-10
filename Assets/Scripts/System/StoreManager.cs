@@ -41,7 +41,6 @@ public class StoreManager : MonoBehaviour
     {
         if (reset)
         {
-            messageText.text = defaultMessage;
             CoinManager.coin += 5;
             Display();
             reset = false;
@@ -176,11 +175,14 @@ public class StoreManager : MonoBehaviour
         if (CoinManager.coin - price < 0)
         {
             messageText.text = "お金が足りないよ";
+            SoundManager.instance.PlaySE(SoundManager.instance.cantBuySE, 1.0f);
             return false;
         }
         else
         {
             CoinManager.coin -= price;
+            messageText.text = defaultMessage;
+            SoundManager.instance.PlaySE(SoundManager.instance.buySE, 1.0f);
             return true;
         }
     }
@@ -190,6 +192,7 @@ public class StoreManager : MonoBehaviour
         if (CoinManager.coin - price < 0)
         {
             messageText.text = "お金が足りないよ";
+            SoundManager.instance.PlaySE(SoundManager.instance.cantBuySE, 1.0f);
             return false;
         }
         else
@@ -197,11 +200,14 @@ public class StoreManager : MonoBehaviour
             if (coolTime + value < 0)
             {
                 messageText.text = "君の能力値はもう最大だよ";
+                SoundManager.instance.PlaySE(SoundManager.instance.cantBuySE, 1.0f);
                 return false;
             }
             else
             {
                 CoinManager.coin -= price;
+                messageText.text = defaultMessage;
+                SoundManager.instance.PlaySE(SoundManager.instance.buySE, 1.0f);
                 return true;
             }
         }
