@@ -13,7 +13,7 @@ public class Enemy : MonoBehaviour
     private float coolTime;             // 攻撃のクールタイム
     protected PlayerControl script;     // 接触相手のプレイヤーのスクリプト
     protected Vector2 initialPos;       // 初期位置
-    private Slider HPbar;               // HPバーのインスタンス
+    public Slider HPbar;                // HPバーのインスタンス
     private Animator animator;          // アニメーターのインスタンス
     private TextMeshProUGUI damageText; // ダメージ表記のテキスト
     private GameObject coinEmmision;    // コイン放出のゲームオブジェクト
@@ -39,7 +39,7 @@ public class Enemy : MonoBehaviour
         canvas.transform.SetParent(transform);
         GameObject slider = canvas.transform.Find("HP").gameObject;
         HPbar = slider.GetComponent<Slider>();
-        HPbar.maxValue = HP;
+        HPbar.maxValue = MaxHP;
         // ダメージ表記テキストの取得
         GameObject text = canvas.transform.Find("Damage").gameObject;
         damageText = text.GetComponent<TextMeshProUGUI>();
@@ -55,7 +55,7 @@ public class Enemy : MonoBehaviour
         {
             coinEmmision = Resources.Load<GameObject>("Coin Emission 5");
         }
-        else if (coin < 100)
+        else if (coin < 40)
         {
             coinEmmision = Resources.Load<GameObject>("Coin Emission 10");
         }

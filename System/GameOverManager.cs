@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameOverManager : MonoBehaviour
 {
@@ -33,9 +34,13 @@ public class GameOverManager : MonoBehaviour
 
     public void Retry()
     {
+        SoundManager.instance.PlaySE(SoundManager.instance.clickSE, 2.0f);
+        SceneManager.LoadScene (SceneManager.GetActiveScene().name);
     }
 
     public void ToTitle()
     {
+        SoundManager.instance.PlaySE(SoundManager.instance.clickSE, 2.0f);
+        SceneManager.LoadScene("Title");
     }
 }

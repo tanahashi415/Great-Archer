@@ -3,9 +3,12 @@ using System.Collections;
 
 public class WhiteTiger : Enemy
 {
+    private bool summon = false;
+
     [Header("特殊パラメータ")]
     public float stopPos_x;     // 止まる位置
     public float arrivalTime;   // 敵に到達するまでの時間
+    public GameObject[] enemies;    // 召喚する敵
 
     protected override void Move()
     {
@@ -24,10 +27,47 @@ public class WhiteTiger : Enemy
 
         if (target != null)
         {
-            // プレイヤーの位置を取得
-            Vector2 targetPos = target.transform.position;
-            // 攻撃
-            StartCoroutine(Go(targetPos));
+            if (summon)
+            {
+                // 召喚リストから敵をランダムに選ぶ
+                GameObject enemy = enemies[Random.Range(0, enemies.Length)];
+                // 敵を召喚
+                SoundManager.instance.PlaySE(SoundManager.instance.tigerSE, 1.0f);
+                GameObject instance = Instantiate(enemy, enemy.transform.position, Quaternion.identity);
+                // HPを2倍に強化
+                if (instance.GetComponent<Enemy>() != null)
+                {
+                    Enemy script = instance.GetComponent<Enemy>();
+                    script.MaxHP *= 2.0f;
+                }
+                else if (instance.GetComponent<Fly>() != null)
+                {
+                    Fly script = instance.GetComponent<Fly>();
+                    script.MaxHP *= 2.0f;
+                }
+                else if (instance.GetComponent<Jump>() != null)
+                {
+                    Jump script = instance.GetComponent<Jump>();
+                    script.MaxHP *= 2.0f;
+                }
+                else if (instance.GetComponent<Throw>() != null)
+                {
+                    Throw script = instance.GetComponent<Throw>();
+                    script.MaxHP *= 2.0f;
+                }
+                // 次は攻撃
+                summon = false;
+            }
+            else
+            {
+                // プレイヤーの位置を取得
+                Vector2 targetPos = target.transform.position;
+                // 攻撃
+                StartCoroutine(Go(targetPos));
+                // 次は召喚
+                summon = true;
+            }
+            
         }
         else
         {

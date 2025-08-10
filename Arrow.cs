@@ -94,12 +94,21 @@ public class Arrow : MonoBehaviour
         Time.timeScale = 0.0f;
 
         // 振動させる
-        target.position = new Vector2(target.position.x + 0.1f, target.position.y);
-        yield return wait;
-        target.position = new Vector2(target.position.x - 0.2f, target.position.y);
-        yield return wait;
-        target.position = new Vector2(target.position.x + 0.1f, target.position.y);
-        yield return wait;
+        if (target != null)
+        {
+            target.position = new Vector2(target.position.x + 0.1f, target.position.y);
+            yield return wait;
+        }
+        if (target != null)
+        {
+            target.position = new Vector2(target.position.x - 0.2f, target.position.y);
+            yield return wait;
+        }
+        if (target != null)
+        {
+            target.position = new Vector2(target.position.x + 0.1f, target.position.y);
+            yield return wait;
+        }
 
         // そして時は動き出す
         Time.timeScale = 1.0f;
