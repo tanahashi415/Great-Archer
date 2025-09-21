@@ -35,7 +35,7 @@ public class Throwing : Arrow
         }
     }
 
-    protected override void FixedUpdate()
+    protected override void Update()
     {
 
     }

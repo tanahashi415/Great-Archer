@@ -7,7 +7,6 @@ public class Arrow : MonoBehaviour
     private Rigidbody2D rb;
     private Enemy script;           // 敵のスクリプトのインスタンス
 
-    public GameObject weightPos;    // 力をかける位置
     public int penetration;         // 貫通数
     public float ATK;               // 矢のダメージ
     public float fixedDamage;       // 矢の固定ダメージ
@@ -17,15 +16,10 @@ public class Arrow : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
     }
 
-    void Update()
+    protected virtual void Update()
     {
-
-    }
-
-    protected virtual void FixedUpdate()
-    {
-        // 矢尻に力をかける
-        rb.AddForceAtPosition(0.07f * Vector2.down, weightPos.transform.position, ForceMode2D.Force);
+        float angle = Vector3.SignedAngle(Vector3.right, rb.linearVelocity, Vector3.forward);
+        transform.rotation = Quaternion.Euler(0f, 0f, angle);
     }
 
     protected virtual void OnTriggerEnter2D(Collider2D collision)
@@ -122,12 +116,5 @@ public class Arrow : MonoBehaviour
         {
             Destroy(gameObject);
         }
-    }
-
-    // ヒットストップとボーダー接触の同時発生回避
-    IEnumerator DelayDestroy(GameObject gameObject)
-    {
-        yield return new WaitForSeconds(0.1f);
-        Destroy(gameObject);
     }
 }
