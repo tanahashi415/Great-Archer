@@ -1,49 +1,27 @@
 using UnityEngine;
-using System.Collections;
 using UnityEngine.UI;
+using System.Collections;
 using TMPro;
 
 // 敵に関するスクリプト
-public class Enemy : MonoBehaviour
+public class Enemy : Entity
 {
-    private float oldHP;                // 前フレームのHP
     protected bool canMove;             // 移動できるか
     private bool canAttack;             // 攻撃できるか
-    private float received;             // 被ダメージ
     private float coolTime;             // 攻撃のクールタイム
     protected PlayerControl script;     // 接触相手のプレイヤーのスクリプト
     protected Vector2 initialPos;       // 初期位置
-    public Slider HPbar;                // HPバーのインスタンス
     private Animator animator;          // アニメーターのインスタンス
-    private TextMeshProUGUI damageText; // ダメージ表記のテキスト
     private GameObject coinEmmision;    // コイン放出のゲームオブジェクト
-    private Coroutine coroutine;        // コールチン格納用
 
-    [Header("基礎パラメータ")]
-    public float MaxHP;        // 体力
-    public float ATK;       // 攻撃力
     public float ATKSPD;    // 攻撃速度
     public float DEF;       // 防御力
     public float SPD;       // 移動スピード
     public int coin;        // 獲得コイン
 
-    [Header("設定しなくていもの")]
-    public float HP;            // 現在の体力
 
-
-    protected virtual void Start()
+    protected override void Awake()
     {
-        // HPゲージの生成
-        GameObject HPcanvas = Resources.Load<GameObject>("HP Canvas");
-        GameObject canvas = Instantiate(HPcanvas, transform.position, Quaternion.identity);
-        canvas.transform.SetParent(transform);
-        GameObject slider = canvas.transform.Find("HP").gameObject;
-        HPbar = slider.GetComponent<Slider>();
-        HPbar.maxValue = MaxHP;
-        // ダメージ表記テキストの取得
-        GameObject text = canvas.transform.Find("Damage").gameObject;
-        damageText = text.GetComponent<TextMeshProUGUI>();
-        damageText.enabled = false;
         // アニメーターの取得
         animator = transform.Find("Attack Area").gameObject.GetComponent<Animator>();
         // コイン放出の設定
@@ -64,9 +42,9 @@ public class Enemy : MonoBehaviour
             coinEmmision = Resources.Load<GameObject>("Coin Emission 40");
         }
 
+        base.Awake();
+
         // 初期値の設定
-        HP = MaxHP;
-        oldHP = HP;
         canMove = true;
         canAttack = false;
         coolTime = 0.0f;
@@ -74,8 +52,10 @@ public class Enemy : MonoBehaviour
     }
 
 
-    void Update()
+    protected override void Update()
     {
+        base.Update();
+
         // 移動
         if (canMove)
         {
@@ -100,15 +80,6 @@ public class Enemy : MonoBehaviour
             coolTime = 0.0f;
         }
 
-        // HPの更新
-        if (HP > MaxHP)
-        {
-            HP = MaxHP;
-        }
-        HPbar.value = HP;
-
-        // HPの変化を確認
-        received = oldHP - HP;
         // HPが変化したとき
         if (received != 0)
         {
@@ -134,31 +105,10 @@ public class Enemy : MonoBehaviour
             }
             else
             {
-                // ダメージを受けた時
-                if (received > 0)
-                {
-                    // 前のコールチンを停止
-                    if (coroutine != null)
-                    {
-                        StopCoroutine(coroutine);
-                    }
-                    // 新たにコールチンを開始
-                    coroutine = StartCoroutine(Damage(sprite));
-                    
-                }
-                // 回復した時
-                else if (received < 0)
-                {
-                    // 前のコールチンを停止
-                    if (coroutine != null)
-                    {
-                        StopCoroutine(coroutine);
-                    }
-                    // 新たにコールチンを開始
-                    coroutine = StartCoroutine(Heal(sprite));
-                }
+                HPChange(received);
             }
         }
+
         // oldHPを更新
         oldHP = HP;
     }
@@ -197,45 +147,6 @@ public class Enemy : MonoBehaviour
 
         Destroy(gameObject);
     }
-
-
-    // ダメージエフェクト
-    IEnumerator Damage(SpriteRenderer sprite)
-    {
-        // 色を赤色に変更
-        sprite.color = Color.red;
-        // ダメージを表記
-        damageText.enabled = true;
-        damageText.text = received.ToString("f0");
-        damageText.color = Color.red;
-
-        yield return new WaitForSeconds(0.5f);
-
-        // 元に戻す
-        damageText.enabled = false;
-        sprite.color = Color.white;
-    }
-
-
-    // 回復エフェクト
-    IEnumerator Heal(SpriteRenderer sprite)
-    {
-        // 色を緑色に変更
-        sprite.color = Color.green;
-        // ダメージを表記
-        damageText.enabled = true;
-        received = -received;
-        damageText.text = received.ToString("f0");
-        damageText.color = Color.green;
-
-        yield return new WaitForSeconds(0.5f);
-
-        // 元に戻す
-        damageText.enabled = false;
-        sprite.color = Color.white;
-    }
-
-
     
     void OnTriggerEnter2D(Collider2D collision)
     {
