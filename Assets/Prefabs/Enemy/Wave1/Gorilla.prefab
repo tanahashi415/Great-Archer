@@ -149,14 +149,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2309ea8a6ee45a4a8a908309f386f71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HPbar: {fileID: 0}
+  HPBar: {fileID: 0}
   MaxHP: 300
-  ATK: 2
+  HP: 300
+  ATK: 4
   ATKSPD: 2
   DEF: 3
   SPD: 1
   coin: 10
-  HP: 300
   ThrowingObj: {fileID: 11173586038760624, guid: b7bdb3452b3711e45955c334f48778d5, type: 3}
   stopPos_x: 5
 --- !u!1 &6645533499258091165

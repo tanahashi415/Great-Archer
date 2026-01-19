@@ -158,9 +158,15 @@ public class PlayerControl : Entity
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Coin")
+        string tag = collision.gameObject.tag;
+
+        if (tag == "Coin")
         {
             CoinManager.coin++;
+        }
+        else if (tag == "ThrowingObj")
+        {
+            SoundManager.instance.PlaySE(SoundManager.instance.damageSE, 1.0f);
         }
     }
 }
